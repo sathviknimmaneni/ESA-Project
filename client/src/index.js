@@ -11,8 +11,13 @@ import { Providers } from "@microsoft/mgt-element";
 import { Msal2Provider } from "@microsoft/mgt-msal2-provider";
 
 Providers.globalProvider = new Msal2Provider({
-  clientId: "enter_client_id",
-  scopes: ["calendars.read", "user.read", "Calendars.ReadWrite"],
+  clientId: "client-id",
+  scopes: [
+    "calendars.read",
+    "user.read",
+    "Calendars.ReadWrite",
+    // "User.Read.All",
+  ],
 });
 
 const rootReducer = combineReducers({

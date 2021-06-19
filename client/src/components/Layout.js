@@ -179,7 +179,9 @@ const Layout = ({ children }) => {
                 className={classes.iconButton}
                 aria-label="search"
                 onClick={() => handleSearch()}
-                disabled={search === "" ? true : false}
+                disabled={
+                  !userData.isSignedIn || (search === "" ? true : false)
+                }
               >
                 <SearchIcon />
               </IconButton>
@@ -205,6 +207,7 @@ const Layout = ({ children }) => {
             <ListItem
               key={item.id}
               button
+              disabled={!isSignedIn}
               onClick={() => history.push(item.path)}
               className={
                 location.pathname === item.path ? classes.activeLink : null

@@ -8,6 +8,7 @@ const AdvSearchResults = () => {
   const searchData = useSelector((state) => state.search);
   const [data, setData] = useState([]);
   useEffect(() => {
+    console.log(searchData);
     axios
       .post("http://localhost:5000/books/search_book", {
         ...searchData,

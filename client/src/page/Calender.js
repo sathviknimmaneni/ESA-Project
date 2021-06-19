@@ -40,7 +40,7 @@ const Calender = () => {
 
   return (
     <div style={{ marginTop: "16px" }}>
-      <button onClick={() => setState(true)}>Add event</button>
+      {/* <button onClick={() => setState(true)}>Add event</button> */}
       <mgt-agenda
         group-by-day
         preferred-timezone="India Standard Time"
