@@ -83,6 +83,7 @@ router.post("/get_user_by_email", async (req, res, next) => {
   try {
     const user = await Users.find({ email: req.body.email }); //.findById(req.body.id)
     res.json(user);
+    console.log(user[0]["checkoutHistory"]);
   } catch (err) {
     res.json({ message: `${err}` });
   }
@@ -96,7 +97,7 @@ router.post("/get_user_books", async (req, res, next) => {
 
     var idArray = [];
     for (let index = 0; index < checkoutHistory.length; index++) {
-      idArray.push(mongoose.Types.ObjectId(checkoutHistory[index]));
+      idArray.push(mongoose.Types.ObjectId(checkoutHistory[index]["bookId"]));
     }
 
     Books.find(
@@ -119,10 +120,10 @@ router.patch("/update_user", async (req, res, next) => {
   const id = user[0]["_id"];
   if (id) {
     Users.findByIdAndUpdate(id, req.body, {
-      new: true,
+      new: false,
       useFindAndModify: false,
     })
-      .then((Users) => {
+      .then(async (Users) => {
         if (!Users) {
           return res.status(404).send();
         }

@@ -6,11 +6,8 @@ const BooksSchema = new mongoose.Schema({
   title: { type: String, required: true},
   popularity: { type: Number, dufault:0},
   description: { type: String, default:"a interesting book!"},
-  branches: { type: [String],dufault:[]},
   genres: { type: [String],dufault:[]},
-  courses: { type: [String],dufault:[]},
-  profs: { type: [String],dufault:[]},
-  status:{type:String,default:"instock"}
+  status:{type:String,default:"book issued"}
 });
 
 module.exports = mongoose.model("Books", BooksSchema);
