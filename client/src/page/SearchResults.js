@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 import BookCard from "../components/BookCard";
 
 const SearchResults = () => {
-  const { searchText } = useParams();
+  const { searchOption, searchText } = useParams();
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
@@ -17,6 +17,7 @@ const SearchResults = () => {
         console.error(err);
       });
   }, [searchText]);
+  console.log(searchText);
 
   return (
     <div>
@@ -24,7 +25,7 @@ const SearchResults = () => {
       <Grid container spacing={3}>
         {data.map((book) => (
           <Grid item md={3} sm={2} key={book._id}>
-            <BookCard book={book} />
+            <BookCard book={book} savedBooks={[]} />
           </Grid>
         ))}
       </Grid>

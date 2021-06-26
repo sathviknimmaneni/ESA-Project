@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import TurnedInNotIcon from "@material-ui/icons/TurnedInNot";
 import TurnedInIcon from "@material-ui/icons/TurnedInNot";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -43,16 +44,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
   },
 }));
-const BookCard = ({ book, canDelete }) => {
+const BookCard = ({ book, savedBooks }) => {
   const classes = useStyles();
   const history = useHistory();
-  const bookMarked = false;
   const userData = useSelector((state) => state.user);
 
-  const [expanded, setExpanded] = useState(false);
-  const handleClick = () => {
-    setExpanded(!expanded);
+  const isSaved = (id) => {
+    return savedBooks.some(function (book) {
+      return book._id === id;
+    });
   };
+  const [bookmark, setBookmark] = useState(isSaved(book._id));
+
+  // console.log(book._id, bookmark);
 
   const handleDelete = (id) => {
     axios
@@ -68,13 +72,13 @@ const BookCard = ({ book, canDelete }) => {
     axios
       .patch("http://localhost:5000/users/update_user", {
         email: userData.mail,
-        checkoutHistory: { id, saved: true },
+        checkoutHistory: { bookId: id, saved: !bookmark },
       })
-      .then((response) => console.log(response))
+      .then((res) => setBookmark(!bookmark))
       .catch((err) => {
         console.error(err);
       });
-    console.log(id);
+    console.log(id, bookmark);
   };
 
   return (
@@ -85,11 +89,11 @@ const BookCard = ({ book, canDelete }) => {
             aria-label="settings"
             onClick={() => handleBookmark(book._id)}
           >
-            {bookMarked ? <TurnedInIcon /> : <TurnedInNotIcon />}
+            {isSaved(book._id) ? <BookmarkIcon /> : <TurnedInNotIcon />}
           </IconButton>
         }
         title={book.title}
-        subheader={book.author[0]}
+        subheader={book.author.join(" ")}
       />
       <CardContent>
         <div className={classes.chipRoot}>

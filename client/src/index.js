@@ -11,7 +11,7 @@ import { Providers } from "@microsoft/mgt-element";
 import { Msal2Provider } from "@microsoft/mgt-msal2-provider";
 
 Providers.globalProvider = new Msal2Provider({
-  clientId: "client-id",
+  clientId: "enter client id",
   scopes: [
     "calendars.read",
     "user.read",

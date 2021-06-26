@@ -163,7 +163,7 @@ const Layout = ({ children }) => {
       <AppBar elevation={2} className={classes.appBar}>
         <Toolbar>
           <Typography variant="h5" className={classes.appTitle}>
-            Project Name
+            Book Club
           </Typography>
           <div className={classes.SearchBar}>
             <Paper className={classes.searchPaper}>

@@ -25,7 +25,7 @@ const AdvSearchResults = () => {
       <Grid container spacing={3}>
         {data.map((book) => (
           <Grid item md={3} sm={2} key={book._id}>
-            <BookCard book={book} />
+            <BookCard book={book} savedBooks={[]} />
           </Grid>
         ))}
       </Grid>
