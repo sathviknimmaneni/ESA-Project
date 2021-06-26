@@ -116,18 +116,37 @@ router.post("/get_user_books", async (req, res, next) => {
 router.patch("/update_user", async (req, res, next) => {
   // update user using mail
 
-  const user = await Users.find({ email: req.body.email });
-  const id = user[0]["_id"];
+  const user = await Users.findOne({ email: req.body.email });
+  var newDetails = user;
+  var newBook = true;
+  console.log(newDetails);
+  for (let i = 0; i < newDetails["checkoutHistory"].length; i++) {
+    if (
+      newDetails["checkoutHistory"][i]["bookId"] ==
+      req.body.checkoutHistory["bookId"]
+    ) {
+      newDetails["checkoutHistory"][i]["saved"] =
+        req.body.checkoutHistory["saved"];
+      newBook = false;
+      break;
+    }
+  }
+  if (newBook == true) {
+    newDetails["checkoutHistory"].push(req.body.checkoutHistory);
+  }
+  //res.json(newDetails)
+
+  const id = user["_id"];
   if (id) {
-    Users.findByIdAndUpdate(id, req.body, {
+    const updatedUser = Users.findByIdAndUpdate(id, newDetails, {
       new: false,
       useFindAndModify: false,
     })
-      .then(async (Users) => {
-        if (!Users) {
+      .then(async (updatedUser) => {
+        if (!updatedUser) {
           return res.status(404).send();
         }
-        res.send(Users);
+        res.json(updatedUser);
       })
       .catch((error) => {
         res.status(500).send(error);

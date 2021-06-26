@@ -199,6 +199,22 @@ router.get("/get_genres", async (req, res, next) => {
   }
 });
 //////////////////////////////////////////////////////////////////////////////////////////////
+router.post("/all_saved_books", async (req, res) => {
+  var savedBooks = {};
+  var bookIdArray = [];
+
+  const user = await Users.findOne({ email: req.body.email });
+
+  for (let i = 0; i < user["checkoutHistory"].length; i++) {
+    if (user["checkoutHistory"][i]["saved"] == true) {
+      bookIdArray.push(user["checkoutHistory"][i]["bookId"]);
+    }
+  }
+  savedBooks = await Books.find({ _id: { $in: bookIdArray } });
+  res.json(savedBooks);
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 router.post("/search_book_by_name", async (req, res) => {
   Books.find(
     {
